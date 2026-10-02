@@ -1,0 +1,146 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Event Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Skip link is the first focusable element on the page, placed before the header -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <h1>Campus Event Management System</h1>
+        <nav aria-label="Main Navigation">
+            <a href="#events-catalog">Events</a>
+            <a href="#registration-form-section">Register</a>
+        </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+
+        <section id="events-catalog" aria-labelledby="catalog-heading">
+            <h2 id="catalog-heading">Upcoming Events</h2>
+            <p class="section-intro">Browse upcoming campus events and reserve your seat in advance.</p>
+
+            <ul class="catalog-list">
+                <li>
+                    <article class="event-card">
+                        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='100%25' height='100%25' fill='%230B5394'/%3E%3Ctext x='50%25' y='50%25' fill='%23FFFFFF' font-family='sans-serif' font-size='20' dominant-baseline='middle' text-anchor='middle'%3ETech Expo 2026%3C/text%3E%3C/svg%3E" alt="Blue banner graphic with the text Tech Expo 2026">
+                        <h3>University Tech Expo 2026</h3>
+                        <p class="event-detail"><strong>Date:</strong> November 12, 2026</p>
+                        <p class="event-detail"><strong>Venue:</strong> Grand Alumni Hall</p>
+                        <p class="event-detail"><strong>Seats Remaining:</strong> <span id="seats-event-1">45</span></p>
+                        <button type="button" class="btn-register" data-event-id="event-1" aria-label="Register for University Tech Expo 2026">Register</button>
+                    </article>
+                </li>
+                <li>
+                    <article class="event-card">
+                        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='100%25' height='100%25' fill='%230B5394'/%3E%3Ctext x='50%25' y='50%25' fill='%23FFFFFF' font-family='sans-serif' font-size='20' dominant-baseline='middle' text-anchor='middle'%3ELeadership Summit%3C/text%3E%3C/svg%3E" alt="Blue banner graphic with the text Leadership Summit">
+                        <h3>Annual Student Leadership Summit</h3>
+                        <p class="event-detail"><strong>Date:</strong> November 18, 2026</p>
+                        <p class="event-detail"><strong>Venue:</strong> University Theater</p>
+                        <p class="event-detail"><strong>Seats Remaining:</strong> <span id="seats-event-2">30</span></p>
+                        <button type="button" class="btn-register" data-event-id="event-2" aria-label="Register for Annual Student Leadership Summit">Register</button>
+                    </article>
+                </li>
+                <li>
+                    <article class="event-card">
+                        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='100%25' height='100%25' fill='%230B5394'/%3E%3Ctext x='50%25' y='50%25' fill='%23FFFFFF' font-family='sans-serif' font-size='20' dominant-baseline='middle' text-anchor='middle'%3ECultural Night%3C/text%3E%3C/svg%3E" alt="Blue banner graphic with the text Cultural Night">
+                        <h3>Campus Cultural Night</h3>
+                        <p class="event-detail"><strong>Date:</strong> November 25, 2026</p>
+                        <p class="event-detail"><strong>Venue:</strong> Amphitheater</p>
+                        <p class="event-detail"><strong>Seats Remaining:</strong> <span id="seats-event-3">60</span></p>
+                        <button type="button" class="btn-register" data-event-id="event-3" aria-label="Register for Campus Cultural Night">Register</button>
+                    </article>
+                </li>
+                <li>
+                    <article class="event-card">
+                        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='100%25' height='100%25' fill='%230B5394'/%3E%3Ctext x='50%25' y='50%25' fill='%23FFFFFF' font-family='sans-serif' font-size='20' dominant-baseline='middle' text-anchor='middle'%3ECareer Fair%3C/text%3E%3C/svg%3E" alt="Blue banner graphic with the text Career Fair">
+                        <h3>National Career &amp; Internship Fair</h3>
+                        <p class="event-detail"><strong>Date:</strong> December 02, 2026</p>
+                        <p class="event-detail"><strong>Venue:</strong> Student Center Gym</p>
+                        <p class="event-detail"><strong>Seats Remaining:</strong> <span id="seats-event-4">120</span></p>
+                        <button type="button" class="btn-register" data-event-id="event-4" aria-label="Register for National Career &amp; Internship Fair">Register</button>
+                    </article>
+                </li>
+                <li>
+                    <article class="event-card">
+                        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='100%25' height='100%25' fill='%230B5394'/%3E%3Ctext x='50%25' y='50%25' fill='%23FFFFFF' font-family='sans-serif' font-size='20' dominant-baseline='middle' text-anchor='middle'%3EAI Workshop%3C/text%3E%3C/svg%3E" alt="Blue banner graphic with the text AI Workshop">
+                        <h3>AI &amp; Data Science Workshop</h3>
+                        <p class="event-detail"><strong>Date:</strong> December 08, 2026</p>
+                        <p class="event-detail"><strong>Venue:</strong> Computer Lab 3</p>
+                        <p class="event-detail"><strong>Seats Remaining:</strong> <span id="seats-event-5">20</span></p>
+                        <button type="button" class="btn-register" data-event-id="event-5" aria-label="Register for AI &amp; Data Science Workshop">Register</button>
+                    </article>
+                </li>
+                <li>
+                    <article class="event-card">
+                        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='100%25' height='100%25' fill='%230B5394'/%3E%3Ctext x='50%25' y='50%25' fill='%23FFFFFF' font-family='sans-serif' font-size='20' dominant-baseline='middle' text-anchor='middle'%3ESports Fest%3C/text%3E%3C/svg%3E" alt="Blue banner graphic with the text Sports Fest">
+                        <h3>Inter-College Sports Fest Opening</h3>
+                        <p class="event-detail"><strong>Date:</strong> December 15, 2026</p>
+                        <p class="event-detail"><strong>Venue:</strong> University Athletics Complex</p>
+                        <p class="event-detail"><strong>Seats Remaining:</strong> <span id="seats-event-6">80</span></p>
+                        <button type="button" class="btn-register" data-event-id="event-6" aria-label="Register for Inter-College Sports Fest Opening">Register</button>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section id="registration-form-section" aria-labelledby="form-heading">
+            <h2 id="form-heading">Event Registration Form</h2>
+
+            <div id="status-message" role="status" aria-live="polite" class="status-container"></div>
+
+            <form id="registration-form" novalidate>
+                <div class="form-field">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" name="fullName" aria-label="Full Name" autocomplete="name" required aria-describedby="name-error">
+                    <span id="name-error" class="error-message" aria-live="polite"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="student-email">Student Email</label>
+                    <input type="email" id="student-email" name="studentEmail" aria-label="Student Email" autocomplete="email" required aria-describedby="email-hint email-error">
+                    <span id="email-hint" class="field-hint">Must end with @univ.edu.ph</span>
+                    <span id="email-error" class="error-message" aria-live="polite"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="student-id">Student ID</label>
+                    <input type="text" id="student-id" name="studentId" aria-label="Student ID" required aria-describedby="id-error">
+                    <span id="id-error" class="error-message" aria-live="polite"></span>
+                </div>
+
+                <div class="form-field">
+                    <label for="event-select">Event</label>
+                    <select id="event-select" name="eventSelect" aria-label="Event" required aria-describedby="event-error">
+                        <option value="">-- Select an Event --</option>
+                        <option value="event-1">University Tech Expo 2026</option>
+                        <option value="event-2">Annual Student Leadership Summit</option>
+                        <option value="event-3">Campus Cultural Night</option>
+                        <option value="event-4">National Career &amp; Internship Fair</option>
+                        <option value="event-5">AI &amp; Data Science Workshop</option>
+                        <option value="event-6">Inter-College Sports Fest Opening</option>
+                    </select>
+                    <span id="event-error" class="error-message" aria-live="polite"></span>
+                </div>
+
+                <div class="form-field">
+                    <button type="submit" class="btn-submit" aria-label="Submit Registration">Submit Registration</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Campus Event Management System. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
