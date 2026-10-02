@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('registration-form');
     const fullNameInput = document.getElementById('full-name');
@@ -14,6 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const registerButtons = document.querySelectorAll('.btn-register');
 
+    // Admin View Elements
+    const toggleAdminBtn = document.getElementById('toggle-admin-btn');
+    const studentView = document.getElementById('student-view');
+    const adminView = document.getElementById('admin-view');
+    const attendeesTableBody = document.getElementById('attendees-table-body');
+    const noAttendeesMsg = document.getElementById('no-attendees-msg');
+    const navEvents = document.getElementById('nav-events');
+    const navRegister = document.getElementById('nav-register');
+
     // Strict university email pattern: something before @, domain must be exactly univ.edu.ph
     const EMAIL_PATTERN = /^[^\s@]+@univ\.edu\.ph$/i;
 
@@ -24,6 +32,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Tracks the first invalid field so focus can be moved to it
     let firstInvalid = null;
+
+    // Load persisted registrations from localStorage
+    let registrations = JSON.parse(localStorage.getItem('campusRegistrations')) || [];
+
+    // Helper to prevent XSS output in Admin table
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, (m) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        })[m]);
+    }
+
+    // Render registered attendees into Admin Table
+    function renderAdminTable() {
+        if (!attendeesTableBody) return;
+        attendeesTableBody.innerHTML = '';
+
+        if (registrations.length === 0) {
+            if (noAttendeesMsg) noAttendeesMsg.style.display = 'block';
+        } else {
+            if (noAttendeesMsg) noAttendeesMsg.style.display = 'none';
+            registrations.forEach((reg, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${escapeHtml(reg.fullName)}</td>
+                    <td>${escapeHtml(reg.email)}</td>
+                    <td>${escapeHtml(reg.studentId)}</td>
+                    <td>${escapeHtml(reg.eventName)}</td>
+                    <td>${escapeHtml(reg.timestamp)}</td>
+                `;
+                attendeesTableBody.appendChild(row);
+            });
+        }
+    }
+
+    // Toggle between Student View and Admin View
+    if (toggleAdminBtn) {
+        toggleAdminBtn.addEventListener('click', () => {
+            const isAdminVisible = !adminView.classList.contains('hidden');
+
+            if (isAdminVisible) {
+                adminView.classList.add('hidden');
+                studentView.classList.remove('hidden');
+                toggleAdminBtn.textContent = 'Admin View';
+                if (navEvents) navEvents.style.display = 'inline';
+                if (navRegister) navRegister.style.display = 'inline';
+            } else {
+                renderAdminTable();
+                studentView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                toggleAdminBtn.textContent = 'Student View';
+                if (navEvents) navEvents.style.display = 'none';
+                if (navRegister) navRegister.style.display = 'none';
+            }
+        });
+    }
 
     // Set accessibility attributes for status message container
     if (statusMessage) {
@@ -189,6 +257,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update disabled status if sold out
             updateEventAvailability(selectedEventId);
 
+            // Save record locally for Admin View
+            const newRecord = {
+                fullName: fullNameInput.value.trim(),
+                email: studentEmailInput.value.trim(),
+                studentId: studentIdInput.value.trim(),
+                eventName: selectedEventOption,
+                timestamp: new Date().toLocaleString()
+            };
+
+            registrations.push(newRecord);
+            localStorage.setItem('campusRegistrations', JSON.stringify(registrations));
+
             // Set success message
             if (statusMessage) {
                 statusMessage.className = 'status-container status-success';
@@ -199,4 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset();
         }
     });
+
+    // Initial load call
+    renderAdminTable();
 });

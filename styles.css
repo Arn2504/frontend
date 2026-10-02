@@ -1,15 +1,3 @@
-/* styles.css */
-
-/*
-  WCAG 2.1 AA Color Contrast Ratio Verification:
-  1. Main Body Text: #1A1A1A on #FFFFFF = 17.5:1 (Passes AAA, exceeds 4.5:1)
-  2. Primary Buttons: #FFFFFF on #0B5394 = 7.3:1 (Passes AAA, exceeds 4.5:1)
-  3. Inline Error Messages: #B00020 on #FFFFFF = 8.1:1 (Passes AAA, exceeds 4.5:1)
-  4. Header/Footer Background Text: #FFFFFF on #0B5394 = 7.3:1 (Passes AAA, exceeds 4.5:1)
-  5. Nav Links: #FFFFFF on #0B5394 = 7.3:1 (Passes AAA, exceeds 4.5:1)
-  6. Success Message Box: #0A531F on #E6F4EA = 8.3:1 (Passes AAA, exceeds 4.5:1)
-*/
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -66,6 +54,7 @@ header h1 {
 nav {
     display: flex;
     gap: 1.5rem;
+    align-items: center;
 }
 
 nav a {
@@ -79,6 +68,22 @@ nav a:hover,
 nav a:focus-visible {
     color: #ffffff;
     text-decoration: none;
+}
+
+.btn-nav-toggle {
+    background-color: #ffffff;
+    color: #0b5394;
+    border: 2px solid #ffffff;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-nav-toggle:hover {
+    background-color: #e6f4ea;
+    color: #073763;
 }
 
 /* Main Layout */
@@ -161,6 +166,12 @@ section h2 {
     border-color: #073763;
 }
 
+.btn-disabled {
+    background-color: #666666 !important;
+    border-color: #666666 !important;
+    cursor: not-allowed !important;
+}
+
 /* Registration Form Section */
 #registration-form-section {
     background-color: #ffffff;
@@ -230,6 +241,54 @@ select {
     padding: 1rem;
     border-radius: 4px;
     font-weight: 700;
+}
+
+/* Admin Dashboard Table Styling */
+.hidden {
+    display: none !important;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+#attendees-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+    background-color: #ffffff;
+    border: 2px solid #1a1a1a;
+}
+
+#attendees-table caption {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+}
+
+#attendees-table th, 
+#attendees-table td {
+    border: 1px solid #1a1a1a;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+#attendees-table th {
+    background-color: #0b5394;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+#attendees-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.empty-state {
+    padding: 1rem;
+    font-style: italic;
+    color: #1a1a1a;
 }
 
 /* Footer */
