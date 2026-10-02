@@ -25,18 +25,64 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tracks the first invalid field so focus can be moved to it
     let firstInvalid = null;
 
+    // Set accessibility attributes for status message container
+    if (statusMessage) {
+        statusMessage.setAttribute('aria-live', 'polite');
+        statusMessage.setAttribute('role', 'status');
+    }
+
+    // Helper: Returns the number of seats left for an event (0 if unknown)
+    function getSeatsRemaining(eventId) {
+        const seatElement = document.getElementById(`seats-${eventId}`);
+        return seatElement ? parseInt(seatElement.textContent, 10) : 0;
+    }
+
+    // Helper: Update UI for sold-out events and buttons
+    function updateEventAvailability(eventId) {
+        const remaining = getSeatsRemaining(eventId);
+        if (remaining <= 0) {
+            // Disable event selection option if available
+            const option = eventSelect.querySelector(`option[value="${eventId}"]`);
+            if (option) {
+                option.disabled = true;
+                if (!option.textContent.includes('(Sold Out)')) {
+                    option.textContent += ' (Sold Out)';
+                }
+            }
+
+            // Disable corresponding register button on event cards
+            const targetButton = document.querySelector(`.btn-register[data-event-id="${eventId}"]`);
+            if (targetButton) {
+                targetButton.disabled = true;
+                targetButton.textContent = 'Sold Out';
+                targetButton.classList.add('btn-disabled');
+            }
+        }
+    }
+
+    // Check initial seats on page load
+    Array.from(eventSelect.options).forEach(option => {
+        if (option.value) {
+            updateEventAvailability(option.value);
+        }
+    });
+
     // Preselect Event and Scroll to Form
     registerButtons.forEach(button => {
         button.addEventListener('click', () => {
             const eventId = button.getAttribute('data-event-id');
             if (eventId && eventSelect) {
+                if (getSeatsRemaining(eventId) <= 0) return;
+
                 eventSelect.value = eventId;
                 clearError(eventSelect, eventError);
 
                 const formSection = document.getElementById('registration-form-section');
-                formSection.scrollIntoView({ behavior: scrollBehavior });
+                if (formSection) {
+                    formSection.scrollIntoView({ behavior: scrollBehavior });
+                }
 
-                // preventScroll stops focus() from cancelling the smooth scroll above
+                // preventScroll stops focus() from cancelling smooth scroll
                 fullNameInput.focus({ preventScroll: true });
             }
         });
@@ -44,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inline Error Helpers
     function showError(inputElement, errorElement, message) {
-        errorElement.textContent = message;
+        if (errorElement) errorElement.textContent = message;
         inputElement.classList.add('input-invalid');
         inputElement.setAttribute('aria-invalid', 'true');
         if (!firstInvalid) {
@@ -53,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function clearError(inputElement, errorElement) {
-        errorElement.textContent = '';
+        if (errorElement) errorElement.textContent = '';
         inputElement.classList.remove('input-invalid');
         inputElement.removeAttribute('aria-invalid');
     }
@@ -63,8 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
         clearError(studentEmailInput, emailError);
         clearError(studentIdInput, idError);
         clearError(eventSelect, eventError);
-        statusMessage.textContent = '';
-        statusMessage.className = 'status-container';
+        if (statusMessage) {
+            statusMessage.textContent = '';
+            statusMessage.className = 'status-container';
+        }
         firstInvalid = null;
     }
 
@@ -73,12 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
     studentEmailInput.addEventListener('input', () => clearError(studentEmailInput, emailError));
     studentIdInput.addEventListener('input', () => clearError(studentIdInput, idError));
     eventSelect.addEventListener('change', () => clearError(eventSelect, eventError));
-
-    // Returns the number of seats left for an event (0 if unknown)
-    function getSeatsRemaining(eventId) {
-        const seatElement = document.getElementById(`seats-${eventId}`);
-        return seatElement ? parseInt(seatElement.textContent, 10) : 0;
-    }
 
     // Form Validation Logic
     function validateForm() {
@@ -124,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return isValid;
     }
 
+    // Form Reset Event Handler
+    form.addEventListener('reset', () => {
+        clearAllErrors();
+    });
+
     // Form Submit Handler
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -133,14 +180,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedEventOption = eventSelect.options[eventSelect.selectedIndex].text;
             const seatElement = document.getElementById(`seats-${selectedEventId}`);
 
-            // Validation already confirmed at least one seat is available
-            seatElement.textContent = (getSeatsRemaining(selectedEventId) - 1).toString();
+            // Deduct seat count
+            const remainingSeats = getSeatsRemaining(selectedEventId) - 1;
+            if (seatElement) {
+                seatElement.textContent = remainingSeats.toString();
+            }
 
-            statusMessage.className = 'status-container status-success';
-            statusMessage.textContent = `Registration successful! You are registered for ${selectedEventOption}.`;
+            // Update disabled status if sold out
+            updateEventAvailability(selectedEventId);
+
+            // Set success message
+            if (statusMessage) {
+                statusMessage.className = 'status-container status-success';
+                statusMessage.textContent = `Registration successful! You are registered for ${selectedEventOption}.`;
+                statusMessage.scrollIntoView({ behavior: scrollBehavior });
+            }
 
             form.reset();
-            statusMessage.scrollIntoView({ behavior: scrollBehavior });
         }
     });
 });
